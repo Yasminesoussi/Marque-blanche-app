@@ -1,0 +1,31 @@
+.footer {
+  background: var(--wl-footer-bg);
+  color: var(--wl-text-muted);
+  padding: 2rem 0;
+  margin-top: auto;
+  border-top: 1px solid var(--wl-border);
+}
+
+.footer-content {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.footer-section {
+  h4 {
+    margin: 0 0 0.75rem;
+    font-size: 0.95rem;
+    color: var(--wl-primary-dark);
+    font-weight: 650;
+  }
+
+  p {
+    margin: 0.35rem 0;
+    color: var(--wl-text-muted);
+    font-size: 0.9rem;
+  }
+}

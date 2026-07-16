@@ -1,0 +1,129 @@
+<div class="product-list-container">
+  <div class="list-header">
+    <div>
+      <h2>Liste des produits</h2>
+      <p>{{ products.length }} produit(s) dans le catalogue</p>
+    </div>
+    <p-button
+      label="Nouveau produit"
+      icon="pi pi-plus"
+      routerLink="/product-form"
+    ></p-button>
+  </div>
+
+  <p-table
+    [value]="products"
+    [paginator]="products.length > 8"
+    [rows]="8"
+    [rowHover]="true"
+    styleClass="p-datatable-sm"
+    [tableStyle]="{ 'min-width': '60rem' }"
+  >
+    <ng-template #header>
+      <tr>
+        <th>Image</th>
+        <th pSortableColumn="name">Nom <p-sortIcon field="name" /></th>
+        <th pSortableColumn="sku">SKU <p-sortIcon field="sku" /></th>
+        <th>Catégorie</th>
+        <th>Marque</th>
+        <th pSortableColumn="price">Prix <p-sortIcon field="price" /></th>
+        <th pSortableColumn="stock">Stock <p-sortIcon field="stock" /></th>
+        <th>Créé le</th>
+        <th style="width: 6rem">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-product>
+      <tr>
+        <td>
+          @if (product.images?.length) {
+            <button
+              type="button"
+              class="product-image"
+              [attr.aria-label]="'Voir les ' + product.images.length + ' image(s) de ' + product.name"
+              (click)="openGallery(product, $event)"
+            >
+              <img [src]="product.images[0].dataUrl" [alt]="product.name" />
+              @if (product.images.length > 1) {
+                <span class="image-count">+{{ product.images.length - 1 }}</span>
+              }
+            </button>
+          } @else {
+            <div class="no-image">
+              <i class="pi pi-image"></i>
+            </div>
+          }
+        </td>
+        <td>
+          <strong>{{ product.name }}</strong>
+        </td>
+        <td>{{ product.sku }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.brand }}</td>
+        <td>{{ product.price | currency: 'EUR' }}</td>
+        <td>
+          <p-tag
+            [value]="getStockLabel(product.stock) + ' (' + product.stock + ')'"
+            [severity]="getStockSeverity(product.stock)"
+          ></p-tag>
+        </td>
+        <td>{{ product.createdAt | date: 'dd/MM/yyyy' }}</td>
+        <td>
+          <p-button
+            icon="pi pi-trash"
+            rounded
+            outlined
+            severity="danger"
+            (onClick)="confirmDelete(product)"
+            [attr.aria-label]="'Supprimer ' + product.name"
+          ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="9">
+          <div class="empty-content">
+            <i class="pi pi-inbox"></i>
+            <p>Aucun produit trouvé</p>
+            <p-button
+              label="Créer votre premier produit"
+              icon="pi pi-plus"
+              routerLink="/product-form"
+            ></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-galleria
+    [value]="galleryImages"
+    [(visible)]="galleryVisible"
+    [(activeIndex)]="activeIndex"
+    [fullScreen]="true"
+    [showItemNavigators]="true"
+    [showThumbnails]="true"
+    [circular]="true"
+    [numVisible]="5"
+    [containerStyle]="{ 'max-width': '900px' }"
+    (onHide)="onGalleryHide()"
+  >
+    <ng-template #item let-item>
+      <div class="gallery-item">
+        <img [src]="item.dataUrl" [alt]="item.name" />
+      </div>
+    </ng-template>
+    <ng-template #thumbnail let-item>
+      <img [src]="item.dataUrl" [alt]="item.name" class="gallery-thumb" />
+    </ng-template>
+    <ng-template #caption let-item>
+      <div class="gallery-caption">
+        <span class="gallery-title">{{ galleryTitle }}</span>
+        <span class="gallery-name">{{ item.name }}</span>
+        <span class="gallery-index">{{ activeIndex + 1 }} / {{ galleryImages.length }}</span>
+      </div>
+    </ng-template>
+  </p-galleria>
+</div>

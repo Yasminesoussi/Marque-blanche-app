@@ -1,0 +1,310 @@
+<div class="product-form-container">
+  <div class="form-header">
+    <h2>Créer un nouveau produit</h2>
+    <p>Étape {{ activeStep }} / 3</p>
+  </div>
+
+  <p-card>
+    <!-- Indicateur d'étapes PrimeNG -->
+    <p-stepper [value]="activeStep" [linear]="false">
+      <p-step-list>
+        <p-step [value]="1">Informations générales</p-step>
+        <p-step [value]="2">Médias</p-step>
+        <p-step [value]="3">Récapitulatif</p-step>
+      </p-step-list>
+    </p-stepper>
+
+    <!-- Étape 1 -->
+    @if (activeStep === 1) {
+      <div class="step-content">
+        @if (step1Error) {
+          <p-message severity="warn" [text]="step1Error" styleClass="mb-3 w-full"></p-message>
+        }
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="name">Nom du produit *</label>
+            <input
+              pInputText
+              id="name"
+              [(ngModel)]="formData.step1.name"
+              placeholder="Ex. Casque audio sans fil"
+              class="w-full"
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="sku">SKU *</label>
+            <input
+              pInputText
+              id="sku"
+              [(ngModel)]="formData.step1.sku"
+              placeholder="Ex. SKU-001"
+              class="w-full"
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="category">Catégorie *</label>
+            <p-select
+              inputId="category"
+              [options]="categories"
+              [(ngModel)]="formData.step1.category"
+              placeholder="Sélectionnez une catégorie"
+              styleClass="w-full"
+            ></p-select>
+          </div>
+
+          <div class="form-field">
+            <label for="brand">Marque *</label>
+            <input
+              pInputText
+              id="brand"
+              [(ngModel)]="formData.step1.brand"
+              placeholder="Ex. AudioTech"
+              class="w-full"
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="price">Prix (€) *</label>
+            <p-inputNumber
+              inputId="price"
+              [(ngModel)]="formData.step1.price"
+              mode="currency"
+              currency="EUR"
+              locale="fr-FR"
+              [min]="0"
+              [minFractionDigits]="2"
+              styleClass="w-full"
+            ></p-inputNumber>
+          </div>
+
+          <div class="form-field">
+            <label for="stock">Stock *</label>
+            <p-inputNumber
+              inputId="stock"
+              [(ngModel)]="formData.step1.stock"
+              [min]="0"
+              [showButtons]="true"
+              styleClass="w-full"
+            ></p-inputNumber>
+          </div>
+
+          <div class="form-field full-width">
+            <label for="description">Description *</label>
+            <textarea
+              pTextarea
+              id="description"
+              [(ngModel)]="formData.step1.description"
+              rows="4"
+              placeholder="Décrivez votre produit"
+              class="w-full"
+              [autoResize]="true"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <p-button
+            label="Suivant — Médias"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            (onClick)="goNext()"
+          ></p-button>
+        </div>
+      </div>
+    }
+
+    <!-- Étape 2 : Médias -->
+    @if (activeStep === 2) {
+      <div class="step-content">
+        <p-message
+          severity="info"
+          text="Les médias sont optionnels. Vous pouvez passer à l'étape suivante sans fichier."
+          styleClass="mb-3 w-full"
+        ></p-message>
+
+        <div class="media-section">
+          <h3>Images</h3>
+          <p class="hint">Glissez-déposez des images ou cliquez sur le bouton.</p>
+          <p-fileUpload
+            mode="advanced"
+            name="images[]"
+            accept="image/*"
+            [multiple]="true"
+            [customUpload]="true"
+            [auto]="false"
+            [showUploadButton]="false"
+            [showCancelButton]="false"
+            chooseLabel="Choisir des images"
+            chooseIcon="pi pi-images"
+            cancelLabel="Annuler"
+            (onSelect)="onImageSelect($event)"
+            [maxFileSize]="5000000"
+          ></p-fileUpload>
+
+          @if (formData.step2.images.length > 0) {
+            <div class="media-preview">
+              @for (image of formData.step2.images; track image.name + image.size) {
+                <div class="preview-item">
+                  <img [src]="image.dataUrl" [alt]="image.name" />
+                  <span class="file-name">{{ image.name }}</span>
+                  <p-button
+                    icon="pi pi-times"
+                    rounded
+                    severity="danger"
+                    size="small"
+                    (onClick)="removeImage(image)"
+                  ></p-button>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="media-section">
+          <h3>Vidéos</h3>
+          <p class="hint">Glissez-déposez des vidéos ou cliquez sur le bouton.</p>
+          <p-fileUpload
+            mode="advanced"
+            name="videos[]"
+            accept="video/*"
+            [multiple]="true"
+            [customUpload]="true"
+            [auto]="false"
+            [showUploadButton]="false"
+            [showCancelButton]="false"
+            chooseLabel="Choisir des vidéos"
+            chooseIcon="pi pi-video"
+            cancelLabel="Annuler"
+            (onSelect)="onVideoSelect($event)"
+            [maxFileSize]="20000000"
+          ></p-fileUpload>
+
+          @if (formData.step2.videos.length > 0) {
+            <div class="media-preview">
+              @for (video of formData.step2.videos; track video.name + video.size) {
+                <div class="preview-item">
+                  <video [src]="video.dataUrl" controls></video>
+                  <span class="file-name">{{ video.name }}</span>
+                  <p-button
+                    icon="pi pi-times"
+                    rounded
+                    severity="danger"
+                    size="small"
+                    (onClick)="removeVideo(video)"
+                  ></p-button>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="step-actions between">
+          <p-button
+            label="Précédent"
+            icon="pi pi-arrow-left"
+            severity="secondary"
+            [outlined]="true"
+            (onClick)="goPrev()"
+          ></p-button>
+          <p-button
+            label="Suivant — Récapitulatif"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            [loading]="mediaLoading"
+            [disabled]="mediaLoading"
+            (onClick)="goNext()"
+          ></p-button>
+        </div>
+      </div>
+    }
+
+    <!-- Étape 3 : Récapitulatif -->
+    @if (activeStep === 3) {
+      <div class="step-content">
+        <h3>Récapitulatif du produit</h3>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <strong>Nom</strong>
+            <span>{{ formData.step1.name }}</span>
+          </div>
+          <div class="summary-item">
+            <strong>SKU</strong>
+            <span>{{ formData.step1.sku }}</span>
+          </div>
+          <div class="summary-item">
+            <strong>Catégorie</strong>
+            <span>{{ formData.step1.category }}</span>
+          </div>
+          <div class="summary-item">
+            <strong>Marque</strong>
+            <span>{{ formData.step1.brand }}</span>
+          </div>
+          <div class="summary-item">
+            <strong>Prix</strong>
+            <span>{{ formData.step1.price | currency: 'EUR' }}</span>
+          </div>
+          <div class="summary-item">
+            <strong>Stock</strong>
+            <span>{{ formData.step1.stock }}</span>
+          </div>
+          <div class="summary-item full-width">
+            <strong>Description</strong>
+            <p>{{ formData.step1.description }}</p>
+          </div>
+        </div>
+
+        <div class="summary-media-block">
+          <h4>Images ({{ formData.step2.images.length }})</h4>
+          @if (formData.step2.images.length === 0) {
+            <p class="hint">Aucune image ajoutée</p>
+          } @else {
+            <div class="summary-media">
+              @for (image of formData.step2.images; track image.name + image.size) {
+                <figure class="summary-thumb">
+                  <img [src]="image.dataUrl" [alt]="image.name" />
+                  <figcaption>{{ image.name }}</figcaption>
+                </figure>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="summary-media-block">
+          <h4>Vidéos ({{ formData.step2.videos.length }})</h4>
+          @if (formData.step2.videos.length === 0) {
+            <p class="hint">Aucune vidéo ajoutée</p>
+          } @else {
+            <div class="summary-media">
+              @for (video of formData.step2.videos; track video.name + video.size) {
+                <figure class="summary-thumb video">
+                  <video [src]="video.dataUrl" controls></video>
+                  <figcaption>{{ video.name }}</figcaption>
+                </figure>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="step-actions between">
+          <p-button
+            label="Précédent"
+            icon="pi pi-arrow-left"
+            severity="secondary"
+            [outlined]="true"
+            (onClick)="goPrev()"
+          ></p-button>
+          <p-button
+            label="Valider et créer"
+            icon="pi pi-check"
+            severity="success"
+            [loading]="submitting"
+            (onClick)="submitForm()"
+          ></p-button>
+        </div>
+      </div>
+    }
+  </p-card>
+</div>

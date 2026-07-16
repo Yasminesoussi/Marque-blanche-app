@@ -1,0 +1,20 @@
+<aside class="sidebar">
+  <div class="sidebar-content">
+    <div class="sidebar-header">
+      <h3>Navigation</h3>
+    </div>
+    <nav class="sidebar-nav">
+      @for (item of items; track item.route) {
+        <p-button
+          [label]="item.label"
+          [icon]="item.icon"
+          text
+          styleClass="sidebar-link"
+          [routerLink]="item.route"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: item.route === '/' }"
+        ></p-button>
+      }
+    </nav>
+  </div>
+</aside>

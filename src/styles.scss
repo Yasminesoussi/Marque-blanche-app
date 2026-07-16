@@ -1,0 +1,39 @@
+/* Harmonie pro : nude clair + grège (pas de blanc pur) */
+:root {
+  --wl-brand-name: 'Shop';
+  --wl-primary: #b89a88;
+  --wl-primary-dark: #8f7668;
+  --wl-primary-soft: #e8ddd4;
+  --wl-accent: #a39e97;
+  --wl-surface: #f3eee8;
+  --wl-surface-alt: #ebe4dc;
+  --wl-surface-card: #f8f4ef;
+  --wl-text: #3d3834;
+  --wl-text-muted: #7a736c;
+  --wl-border: #ddd5cc;
+  --wl-footer-bg: #e8e2db;
+  --wl-header-height: 64px;
+  --wl-sidebar-width: 240px;
+  --wl-radius: 10px;
+  --wl-font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --wl-shadow: 0 2px 10px rgba(61, 56, 52, 0.06);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--wl-font);
+  color: var(--wl-text);
+  background: var(--wl-surface);
+}
+
+a {
+  color: inherit;
+}

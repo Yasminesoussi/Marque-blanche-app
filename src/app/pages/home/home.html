@@ -1,0 +1,45 @@
+<div class="home-page">
+  <section class="hero-section">
+    <h1>{{ brand.appName }}</h1>
+    <p>{{ brand.tagline }}</p>
+    <div class="hero-actions">
+      <p-button
+        label="Créer un produit"
+        icon="pi pi-plus"
+        size="large"
+        routerLink="/product-form"
+      ></p-button>
+      <p-button
+        label="Voir les produits"
+        icon="pi pi-list"
+        size="large"
+        [outlined]="true"
+        routerLink="/products"
+      ></p-button>
+    </div>
+  </section>
+
+  <section class="features-section">
+    <p-card>
+      <div class="feature">
+        <i class="pi pi-shopping-bag"></i>
+        <h3>Gestion des produits</h3>
+        <p>Créez et gérez facilement votre catalogue de produits</p>
+      </div>
+    </p-card>
+    <p-card>
+      <div class="feature">
+        <i class="pi pi-images"></i>
+        <h3>Médias</h3>
+        <p>Ajoutez des images et vidéos via drag & drop</p>
+      </div>
+    </p-card>
+    <p-card>
+      <div class="feature">
+        <i class="pi pi-check-circle"></i>
+        <h3>Validation multi-étapes</h3>
+        <p>Contrôlez chaque information avant publication</p>
+      </div>
+    </p-card>
+  </section>
+</div>

@@ -22,6 +22,7 @@
     <ng-template #header>
       <tr>
         <th>Image</th>
+        <th>Vidéos</th>
         <th pSortableColumn="name">Nom <p-sortIcon field="name" /></th>
         <th pSortableColumn="sku">SKU <p-sortIcon field="sku" /></th>
         <th>Catégorie</th>
@@ -36,7 +37,7 @@
     <ng-template #body let-product>
       <tr>
         <td>
-          @if (product.images?.length) {
+          @if (product.images?.length && product.images[0].dataUrl) {
             <button
               type="button"
               class="product-image"
@@ -52,6 +53,21 @@
             <div class="no-image">
               <i class="pi pi-image"></i>
             </div>
+          }
+        </td>
+        <td>
+          @if (product.videos?.length) {
+            <button
+              type="button"
+              class="product-video"
+              [attr.aria-label]="'Voir les ' + product.videos.length + ' vidéo(s) de ' + product.name"
+              (click)="openVideos(product, $event)"
+            >
+              <i class="pi pi-play-circle"></i>
+              <span>{{ product.videos.length }}</span>
+            </button>
+          } @else {
+            <span class="no-video">—</span>
           }
         </td>
         <td>
@@ -83,7 +99,7 @@
 
     <ng-template #emptymessage>
       <tr>
-        <td colspan="9">
+        <td colspan="10">
           <div class="empty-content">
             <i class="pi pi-inbox"></i>
             <p>Aucun produit trouvé</p>
@@ -126,4 +142,23 @@
       </div>
     </ng-template>
   </p-galleria>
+
+  <p-dialog
+    [header]="videoDialogTitle"
+    [(visible)]="videoDialogVisible"
+    [modal]="true"
+    [style]="{ width: 'min(720px, 95vw)' }"
+    (onHide)="onVideoDialogHide()"
+  >
+    <div class="video-dialog-list">
+      @for (video of videoDialogItems; track video.id ?? video.name + video.size) {
+        <div class="video-dialog-item">
+          <p class="video-name">{{ video.name }}</p>
+          @if (video.dataUrl) {
+            <video [src]="video.dataUrl" controls></video>
+          }
+        </div>
+      }
+    </div>
+  </p-dialog>
 </div>

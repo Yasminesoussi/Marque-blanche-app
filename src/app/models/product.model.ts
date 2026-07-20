@@ -1,8 +1,9 @@
 export interface ProductMedia {
+  id?: string;
   name: string;
   type: string;
   size: number;
-  dataUrl: string;
+  dataUrl?: string;
 }
 
 export interface Product {

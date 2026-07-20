@@ -109,7 +109,16 @@ export class ProductForm {
     this.formData.step2.videos = this.formData.step2.videos.filter((m) => m !== media);
   }
 
-  submitForm(): void {
+  async submitForm(): Promise<void> {
+    if (this.mediaLoading) {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Chargement',
+        detail: 'Patientez le temps que les médias soient prêts.',
+      });
+      return;
+    }
+
     if (!this.validateStep1()) {
       this.activeStep = 1;
       return;
@@ -118,7 +127,7 @@ export class ProductForm {
     this.submitting = true;
 
     try {
-      this.productService.addProduct({
+      await this.productService.addProduct({
         name: this.formData.step1.name.trim(),
         description: this.formData.step1.description.trim(),
         category: this.formData.step1.category,
@@ -136,7 +145,13 @@ export class ProductForm {
         detail: `"${this.formData.step1.name}" a été ajouté au catalogue.`,
       });
 
-      this.router.navigate(['/products']);
+      await this.router.navigateByUrl('/products');
+    } catch {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erreur',
+        detail: 'Impossible d\'enregistrer le produit. Réduisez la taille des médias ou réessayez.',
+      });
     } finally {
       this.submitting = false;
     }

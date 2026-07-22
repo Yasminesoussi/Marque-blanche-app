@@ -3,19 +3,23 @@
     <h1>{{ brand.appName }}</h1>
     <p>{{ brand.tagline }}</p>
     <div class="hero-actions">
-      <p-button
-        label="Créer un produit"
-        icon="pi pi-plus"
-        size="large"
-        routerLink="/product-form"
-      ></p-button>
-      <p-button
-        label="Voir les produits"
-        icon="pi pi-list"
-        size="large"
-        [outlined]="true"
-        routerLink="/products"
-      ></p-button>
+      @if (showProductForm) {
+        <p-button
+          label="Créer un produit"
+          icon="pi pi-plus"
+          size="large"
+          routerLink="/product-form"
+        ></p-button>
+      }
+      @if (showProducts) {
+        <p-button
+          label="Voir les produits"
+          icon="pi pi-list"
+          size="large"
+          [outlined]="true"
+          routerLink="/products"
+        ></p-button>
+      }
     </div>
   </section>
 

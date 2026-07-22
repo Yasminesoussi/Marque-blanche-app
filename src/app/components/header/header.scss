@@ -1,6 +1,10 @@
 .header {
   height: var(--wl-header-height);
-  background: linear-gradient(180deg, #f0e8e0 0%, #e8ddd4 100%);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--wl-primary-soft) 80%, white) 0%,
+    color-mix(in srgb, var(--wl-primary) 18%, var(--wl-surface)) 100%
+  );
   color: var(--wl-text);
   border-bottom: 1px solid var(--wl-border);
   box-shadow: var(--wl-shadow);
@@ -26,12 +30,12 @@
   font-size: 1.2rem;
   font-weight: 700;
   text-decoration: none;
-  color: var(--wl-primary-dark);
+  color: var(--wl-primary) !important;
   letter-spacing: 0.02em;
 
   i {
     font-size: 1.4rem;
-    color: var(--wl-primary);
+    color: var(--wl-primary) !important;
   }
 }
 
@@ -41,17 +45,38 @@
   align-items: center;
 
   :host ::ng-deep .p-button {
-    color: var(--wl-text-muted);
     font-weight: 500;
+
+    ::ng-deep .p-button-icon {
+      color: var(--wl-secondary) !important;
+    }
+
+    ::ng-deep .p-button-label {
+      color: var(--wl-secondary) !important;
+    }
 
     &:hover {
       background: color-mix(in srgb, var(--wl-primary) 14%, transparent);
-      color: var(--wl-text);
+
+      ::ng-deep .p-button-icon {
+        color: var(--wl-text) !important;
+      }
+
+      ::ng-deep .p-button-label {
+        color: var(--wl-text) !important;
+      }
     }
 
     &.active-nav {
       background: color-mix(in srgb, var(--wl-primary) 18%, transparent);
-      color: var(--wl-primary-dark);
+
+      ::ng-deep .p-button-icon {
+        color: var(--wl-primary) !important;
+      }
+
+      ::ng-deep .p-button-label {
+        color: var(--wl-primary) !important;
+      }
     }
   }
 }
@@ -71,6 +96,15 @@
   align-items: center;
   justify-content: center;
   color: var(--wl-primary-dark);
+}
+
+/* Force la couleur secondaire pour tous les boutons text dans le header */
+:host .p-button.text .p-button-label {
+  color: var(--wl-secondary) !important;
+}
+
+:host .p-button.text .p-button-icon {
+  color: var(--wl-secondary) !important;
 }
 
 @media (max-width: 768px) {

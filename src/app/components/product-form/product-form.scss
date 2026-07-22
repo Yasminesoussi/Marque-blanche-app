@@ -184,7 +184,7 @@
     height: 140px;
     object-fit: cover;
     display: block;
-    background: #e2e8f0;
+    background: var(--wl-surface-alt);
   }
 
   figcaption {
@@ -198,7 +198,7 @@
 
   &.video video {
     object-fit: contain;
-    background: #0f172a;
+    background: var(--wl-text);
   }
 }
 

@@ -1,23 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Button } from 'primeng/button';
-
-interface NavItem {
-  label: string;
-  icon: string;
-  route: string;
-}
+import { NavItem, ModuleService } from '../../core/modules/module.service';
 
 @Component({
   selector: 'app-sidebar',
   imports: [RouterLink, RouterLinkActive, Button],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
+  encapsulation: ViewEncapsulation.None,
 })
-export class Sidebar {
-  readonly items: NavItem[] = [
-    { label: 'Accueil', icon: 'pi pi-home', route: '/' },
-    { label: 'Produits', icon: 'pi pi-list', route: '/products' },
-    { label: 'Nouveau produit', icon: 'pi pi-plus', route: '/product-form' },
-  ];
+export class Sidebar implements OnInit {
+  private readonly moduleService = inject(ModuleService);
+
+  items: NavItem[] = [];
+
+  ngOnInit(): void {
+    this.refreshItems();
+    this.moduleService.modules$.subscribe(() => this.refreshItems());
+  }
+
+  private refreshItems(): void {
+    this.items = this.moduleService.getVisibleNavItems();
+  }
 }

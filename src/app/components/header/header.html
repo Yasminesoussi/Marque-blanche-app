@@ -6,27 +6,16 @@
     </a>
 
     <nav class="nav-menu">
-      <p-button
-        label="Accueil"
-        icon="pi pi-home"
-        text
-        routerLink="/"
-        routerLinkActive="active-nav"
-      ></p-button>
-      <p-button
-        label="Produits"
-        icon="pi pi-list"
-        text
-        routerLink="/products"
-        routerLinkActive="active-nav"
-      ></p-button>
-      <p-button
-        label="Nouveau produit"
-        icon="pi pi-plus"
-        text
-        routerLink="/product-form"
-        routerLinkActive="active-nav"
-      ></p-button>
+      @for (item of navItems; track item.route) {
+        <p-button
+          [label]="item.label"
+          [icon]="item.icon"
+          text
+          [routerLink]="item.route"
+          routerLinkActive="active-nav"
+          [routerLinkActiveOptions]="{ exact: item.route === '/' }"
+        ></p-button>
+      }
     </nav>
 
     <div class="user-menu">

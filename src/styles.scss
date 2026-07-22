@@ -4,6 +4,7 @@
   --wl-primary: #b89a88;
   --wl-primary-dark: #8f7668;
   --wl-primary-soft: #e8ddd4;
+  --wl-secondary: #a39e97;
   --wl-accent: #a39e97;
   --wl-surface: #f3eee8;
   --wl-surface-alt: #ebe4dc;
@@ -35,5 +36,44 @@ body {
 }
 
 a {
-  color: inherit;
+  color: var(--wl-secondary);
+}
+
+/* Boutons PrimeNG — suivent le thème dynamique */
+.p-button:not(.p-button-outlined):not(.p-button-text):not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warn):not(.p-button-info):not(.p-button-help):not(.p-button-contrast) {
+  background: var(--wl-primary);
+  border-color: var(--wl-primary);
+}
+
+.p-button:not(.p-button-outlined):not(.p-button-text):not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warn):not(.p-button-info):not(.p-button-help):not(.p-button-contrast):enabled:hover {
+  background: var(--wl-primary-dark);
+  border-color: var(--wl-primary-dark);
+}
+
+/* Boutons text utilisent la couleur secondaire sauf les liens actifs */
+.p-button.text:not(.active-nav):not(.active-link) .p-button-label {
+  color: var(--wl-secondary) !important;
+}
+
+.p-button.text:not(.active-nav):not(.active-link) .p-button-icon {
+  color: var(--wl-secondary) !important;
+}
+
+/* Boutons outlined utilisent la couleur principale pour le fond et blanc pour le texte */
+.p-button.p-button-outlined {
+  background: var(--wl-primary) !important;
+  border-color: var(--wl-primary) !important;
+}
+
+.p-button.p-button-outlined .p-button-label {
+  color: #fff !important;
+}
+
+.p-button.p-button-outlined .p-button-icon {
+  color: #fff !important;
+}
+
+/* Tous les liens routerLink utilisent la couleur secondaire sauf le logo */
+a[routerLink]:not(.logo) {
+  color: var(--wl-secondary) !important;
 }

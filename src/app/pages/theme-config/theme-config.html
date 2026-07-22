@@ -1,0 +1,158 @@
+<div class="theme-config-page">
+  <header class="page-header">
+    <div>
+      <h2><i class="pi pi-palette"></i> Configuration du thème</h2>
+      <p>Personnalisez les couleurs principales de votre application.</p>
+    </div>
+  </header>
+
+  <div class="theme-grid">
+    <p-card header="Palette de couleurs" subheader="Sélectionnez la couleur principale et secondaire." styleClass="theme-card">
+      <div class="color-fields">
+        <div class="color-field">
+          <label for="primaryColor">Couleur principale</label>
+          <p class="hint">Boutons d'action, icons, logo, Dégradé du header et sidebar</p>
+          <div class="color-input-row">
+            <input
+              id="primaryColor"
+              type="color"
+              [(ngModel)]="draft.primaryColor"
+              (ngModelChange)="onColorChange()"
+            />
+            <input
+              type="text"
+              class="hex-input"
+              [(ngModel)]="draft.primaryColor"
+              (ngModelChange)="onColorChange()"
+              maxlength="7"
+            />
+          </div>
+        </div>
+
+        <div class="color-field">
+          <label for="secondaryColor">Couleur secondaire</label>
+          <p class="hint">Liens de navigation, liens hypertexte, icons, boutons text.</p>
+          <div class="color-input-row">
+            <input
+              id="secondaryColor"
+              type="color"
+              [(ngModel)]="draft.secondaryColor"
+              (ngModelChange)="onColorChange()"
+            />
+            <input
+              type="text"
+              class="hex-input"
+              [(ngModel)]="draft.secondaryColor"
+              (ngModelChange)="onColorChange()"
+              maxlength="7"
+            />
+          </div>
+        </div>
+
+        <div class="color-field">
+          <label for="email">Email de contact</label>
+          <p class="hint">Email affiché dans l'application pour les contacts.</p>
+          <div class="color-input-row">
+            <input
+              id="email"
+              type="email"
+              class="hex-input"
+              [(ngModel)]="draft.email"
+              placeholder="contact@exemple.com"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="theme-actions">
+        <p-button
+          label="Réinitialiser par défaut"
+          icon="pi pi-refresh"
+          severity="secondary"
+          [outlined]="true"
+          (onClick)="resetTheme()"
+        ></p-button>
+        <p-button
+          label="Enregistrer le thème"
+          icon="pi pi-save"
+          (onClick)="saveTheme()"
+        ></p-button>
+      </div>
+    </p-card>
+
+    <div class="right-column">
+      <p-card header="Aperçu en temps réel" subheader="Visualisez votre thème avant enregistrement." styleClass="theme-card preview-card">
+        <div class="theme-preview">
+          <div class="preview-header" [style.background]="draft.primaryColor">
+            <span>Shop</span>
+          </div>
+          <div class="preview-body">
+            <div class="preview-sidebar">
+              @for (module of modules; track module.id) {
+                @if (moduleState[module.id]) {
+                  <span
+                    class="preview-nav"
+                    [class.active]="module.id === 'home'"
+                    [style.background]="module.id === 'home' ? draft.primaryColor + '22' : null"
+                    [style.color]="draft.secondaryColor"
+                  >
+                    {{ module.label }}
+                  </span>
+                }
+              }
+            </div>
+            <div class="preview-content">
+              <div class="preview-cards">
+                <div class="preview-stat">
+                  <small>Produits</small>
+                  <strong>24</strong>
+                </div>
+                <div class="preview-stat">
+                  <small>Stock</small>
+                  <strong>156</strong>
+                </div>
+              </div>
+              <button type="button" class="preview-btn" [style.background]="draft.primaryColor">
+                Bouton principal
+              </button>
+              <a class="preview-link" [style.color]="draft.secondaryColor">Lien d'exemple</a>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+
+  <section class="modules-section">
+    <p-card header="Modules à activer" subheader="Activez ou désactivez les sections de l'application." styleClass="theme-card modules-card">
+      <div class="modules-grid">
+        @for (module of modules; track module.id) {
+          <div class="module-item" [class.module-locked]="module.locked">
+            <div class="module-info">
+              <i [class]="module.icon"></i>
+              <div>
+                <strong>{{ module.label }}</strong>
+                <p>{{ module.description }}</p>
+              </div>
+            </div>
+            <p-toggleswitch
+              [(ngModel)]="moduleState[module.id]"
+              (ngModelChange)="onModuleToggle(module, $event)"
+              [disabled]="module.locked ?? false"
+            ></p-toggleswitch>
+          </div>
+        }
+      </div>
+
+      <div class="modules-actions">
+        <p-button
+          label="Réactiver tous les modules"
+          icon="pi pi-refresh"
+          severity="secondary"
+          [outlined]="true"
+          (onClick)="resetModules()"
+        ></p-button>
+      </div>
+    </p-card>
+  </section>
+</div>

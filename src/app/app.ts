@@ -5,7 +5,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Header } from './components/header/header';
 import { Sidebar } from './components/sidebar/sidebar';
 import { Footer } from './components/footer/footer';
-import { applyBrandTheme, BRAND } from './core/brand/brand.config';
+import { ThemeService } from './core/theme/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +15,6 @@ import { applyBrandTheme, BRAND } from './core/brand/brand.config';
 })
 export class App {
   constructor() {
-    applyBrandTheme(inject(BRAND));
+    inject(ThemeService);
   }
 }

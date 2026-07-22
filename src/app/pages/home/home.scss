@@ -2,7 +2,7 @@
   .hero-section {
     text-align: center;
     padding: 3.5rem 1.5rem;
-    background: linear-gradient(145deg, #f0e8e0 0%, #e4d7cb 55%, #ddd5cc 100%);
+    background: linear-gradient(145deg, var(--wl-surface-alt) 0%, var(--wl-surface) 55%, var(--wl-surface-card) 100%);
     border-radius: calc(var(--wl-radius) + 4px);
     color: var(--wl-text);
     margin-bottom: 2rem;
